@@ -1,12 +1,20 @@
 import { SearchBar } from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
+import { fetchMovies } from "@/services/api";
+import useFetch from "@/services/useFetch";
 import { useRouter } from "expo-router";
-import { Image, ScrollView, View } from "react-native";
+import { ActivityIndicator, Image, ScrollView, Text, View } from "react-native";
 
 export default function Index() {
   const router = useRouter();
-  const searchPlaceholder = 'Search movies or TV shows';
+
+  const { 
+    data: movies, 
+    loading: moviesLoading,
+    error: moviesError } = useFetch(() => fetchMovies({
+    query: ''
+  }))
 
   return (
     <View className="flex-1 bg-primary">
@@ -15,12 +23,27 @@ export default function Index() {
       <ScrollView className="flex-1 px-5" showsVerticalScrollIndicator={false} contentContainerStyle={{ minHeight: "120%", paddingBottom: 10 }}>
         <Image source={icons.logo} className="w-14 h-14 mb-20 mt-20 mx-auto" />
 
-        <View className="mb-5 flex-1">
-          <SearchBar 
-            onPress={() => router.push('/search')}
-            placeholder={searchPlaceholder}
+        {moviesLoading ? (
+          <ActivityIndicator 
+            size="large" 
+            color="#0000ff"
+            className="mt-10 self-center" 
           />
-        </View>
+        ) : moviesError ? (
+          <Text>Error: {moviesError?.message}</Text>
+        ) : (
+          <View className="mb-5 flex-1">
+            <SearchBar 
+              onPress={() => router.push('/search')}
+              placeholder='Search movies or TV shows'
+            />
+
+            <>
+              <Text className="text-lg text-white font-bold mt-5 mb-3">Latest Movies</Text>
+            </>
+          </View>
+        )}
+
       </ScrollView>
     </View>
   );
