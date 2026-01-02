@@ -4,7 +4,7 @@ import { Link } from "expo-router"
 import React from "react"
 import { Image, Text, TouchableOpacity, View } from "react-native"
 
-const MovieCard = ({ id, poster_path, title, vote_average, release_date }: Movie ) => {
+const MovieCard = ({ id, poster_path, title, vote_average, release_date, original_language }: Movie ) => {
     return (
         <Link href={`/movies/${id}`} asChild>
             <TouchableOpacity className="w-[30%]">
@@ -22,18 +22,33 @@ const MovieCard = ({ id, poster_path, title, vote_average, release_date }: Movie
 
                 <Text className="text-sm font-bold text-white mt-2" numberOfLines={1}>{title}</Text>
 
-                <View className="flex-row items-center justify-start gap-x-1">
-                    <Image source={icons.star} className="size-4" />
-                    <Text className="text-xs text-white font-bold uppercase">{Math.round(vote_average / 2)}</Text>
+                <View className="flex-row items-center justify-between mt-1">
+                    {/* Left Side: Star and Rounded Score */}
+                    <View className="flex-row items-center gap-x-1">
+                        <Image source={icons.star} className="size-4" />
+                        <Text className="text-xs text-white font-bold uppercase">
+                        {Math.round(vote_average / 2)}
+                        </Text>
+                    </View>
+
+                    {/* Right Side: Precise Decimal Rating */}
+                    <Text className="text-xs text-light-200 font-medium">
+                        {vote_average.toFixed(1)}
+                    </Text>
                 </View>
 
                 <View className="flex-row items-center justify-between">
                     <Text className="text-xs text-light-300 font-medium mt-1">
                         {release_date?.split('-')[0]}
                     </Text>
+
                     {/*<Text className="text-xs font-medium text-light-300 uppercase">
                         Movie
                     </Text>*/}
+
+                    <Text className="text-xs text-light-200 font-medium mt-1">
+                        {original_language}
+                    </Text>
                 </View>
             </TouchableOpacity>
         </Link>
