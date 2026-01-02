@@ -4,7 +4,7 @@ import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
 import useFetch from "@/services/useFetch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
 
 const Search = () => {
@@ -13,10 +13,24 @@ const Search = () => {
   const {
     data: movies,
     loading,
-    error 
+    error,
+    refetch: loadMovies,
+    reset,
   } = useFetch(() => fetchMovies({
       query: searchQuery
     }), false)
+
+    useEffect(() => {
+      const timeoutId = setTimeout(async () => {
+        if(searchQuery.trim()){
+          await loadMovies();
+        } else {
+          reset()
+        }
+      }, 500);
+
+      return () => clearTimeout(timeoutId);
+    }, [searchQuery])
 
   return (
     <View className="flex-1 bg-primary">
