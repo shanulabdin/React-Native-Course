@@ -26,17 +26,20 @@ useEffect(() => {
     console.log("⌨️ User typed:", searchQuery); // Log 1
 
     if (searchQuery.trim()) {
-      const results = await loadMovies(); 
-      console.log("📦 Results received:", results?.length); // Log 2
-
-      if (results && results.length > 0) {
-        console.log("☁️ Calling Appwrite for:", results[0].title); // Log 3
-        await updateSearchCount(searchQuery, results[0]);
-      }
+      await loadMovies(); 
+    } else {
+      reset();
     }
   }, 500);
+
   return () => clearTimeout(timeoutId);
 }, [searchQuery]);
+
+useEffect(() => {
+  if(movies?.length > 0 && movies?.[0]){
+    updateSearchCount(searchQuery, movies[0]);
+  }
+}, [movies])
 
   return (
     <View className="flex-1 bg-primary">
