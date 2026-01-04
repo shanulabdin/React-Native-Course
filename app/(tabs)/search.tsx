@@ -3,6 +3,7 @@ import { SearchBar } from "@/components/SearchBar";
 import { icons } from "@/constants/icons";
 import { images } from "@/constants/images";
 import { fetchMovies } from "@/services/api";
+import { updateSearchCount } from "@/services/appwrite";
 import useFetch from "@/services/useFetch";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, Text, View } from "react-native";
@@ -20,17 +21,22 @@ const Search = () => {
       query: searchQuery
     }), false)
 
-    useEffect(() => {
-      const timeoutId = setTimeout(async () => {
-        if(searchQuery.trim()){
-          await loadMovies();
-        } else {
-          reset()
-        }
-      }, 500);
+useEffect(() => {
+  const timeoutId = setTimeout(async () => {
+    console.log("⌨️ User typed:", searchQuery); // Log 1
 
-      return () => clearTimeout(timeoutId);
-    }, [searchQuery])
+    if (searchQuery.trim()) {
+      const results = await loadMovies(); 
+      console.log("📦 Results received:", results?.length); // Log 2
+
+      if (results && results.length > 0) {
+        console.log("☁️ Calling Appwrite for:", results[0].title); // Log 3
+        await updateSearchCount(searchQuery, results[0]);
+      }
+    }
+  }, 500);
+  return () => clearTimeout(timeoutId);
+}, [searchQuery]);
 
   return (
     <View className="flex-1 bg-primary">
