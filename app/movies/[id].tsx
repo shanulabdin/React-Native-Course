@@ -59,8 +59,11 @@ const MovieDetails = () => {
               ({movie?.vote_count} votes)
             </Text>
           </View>
-          
+
           <MovieInfo label="Overview" value={movie?.overview} />
+
+          <MovieInfo label="Genres" value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'} />
+
         </View>
       </ScrollView>
     </View>
