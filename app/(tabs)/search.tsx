@@ -23,8 +23,6 @@ const Search = () => {
 
 useEffect(() => {
   const timeoutId = setTimeout(async () => {
-    console.log("⌨️ User typed:", searchQuery); // Log 1
-
     if (searchQuery.trim()) {
       await loadMovies(); 
     } else {
