@@ -59,6 +59,8 @@ const MovieDetails = () => {
               ({movie?.vote_count} votes)
             </Text>
           </View>
+          
+          <MovieInfo label="Overview" value={movie?.overview} />
         </View>
       </ScrollView>
     </View>
