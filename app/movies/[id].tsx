@@ -1,7 +1,7 @@
 import { icons } from "@/constants/icons";
 import { fetchMovieDetails } from "@/services/api";
 import useFetch from "@/services/useFetch";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { Image, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
 interface MovieInfoProps {
@@ -74,7 +74,7 @@ const MovieDetails = () => {
         </View>
       </ScrollView>
 
-      <TouchableOpacity className="absolute bottom-5 left-0 right-9 mx-5 bg-accent rounded-lg py-3.5 flex flex-row items-center justify-center z-50">
+      <TouchableOpacity className="absolute bottom-5 left-0 right-9 mx-5 bg-accent rounded-lg py-3.5 flex flex-row items-center justify-center z-50" onPress={router.back}>
           <Image source={icons.arrow} className="size-5 mr-1 mt-9m5 rotate-180" tintColor="#fff" />
           <Text className="text-white font-semibold text-base">Go Back</Text>
       </TouchableOpacity>
