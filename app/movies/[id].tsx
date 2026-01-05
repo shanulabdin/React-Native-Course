@@ -64,6 +64,11 @@ const MovieDetails = () => {
 
           <MovieInfo label="Genres" value={movie?.genres?.map((g) => g.name).join(' - ') || 'N/A'} />
 
+
+          <View className="flex flex-row justify-between w-1/2">
+            <MovieInfo label="Budget" value={`$${movie?.budget / 1_000_000} million`} />
+            <MovieInfo label="Revenue" value={`$${Math.round(movie?.revenue) / 1_000_000}`} />
+          </View>
         </View>
       </ScrollView>
     </View>
