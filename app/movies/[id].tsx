@@ -69,6 +69,8 @@ const MovieDetails = () => {
             <MovieInfo label="Budget" value={`$${movie?.budget / 1_000_000} million`} />
             <MovieInfo label="Revenue" value={`$${Math.round(movie?.revenue) / 1_000_000}`} />
           </View>
+          
+          <MovieInfo label="Production Companies" value={movie?.production_companies.map((c) => c.name).join(' - ') || 'N/A'} />
         </View>
       </ScrollView>
     </View>
