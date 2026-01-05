@@ -23,7 +23,7 @@ const MovieInfo = ({ label, value }: MovieInfoProps) => (
 
 const MovieDetails = () => {
   const { id } = useLocalSearchParams();
-  const { data: movie, loading } = useFetch(() => fetchMovieDetails(id as string));
+  const { data: movie, loading } = useFetch(() => fetchMovieDetails(id as string)) as { data: any, loading: boolean };
 
   // 1. Handle Loading State (Prevents errors on undefined 'movie')
   if (loading) {
